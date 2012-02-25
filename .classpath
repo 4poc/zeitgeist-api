@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
+	<classpathentry kind="lib" path="deps/httpcomponents-client/lib/commons-codec-1.4.jar"/>
+	<classpathentry kind="lib" path="deps/httpcomponents-client/lib/commons-logging-1.1.1.jar"/>
+	<classpathentry kind="lib" path="deps/httpcomponents-client/lib/httpclient-4.1.3.jar"/>
+	<classpathentry kind="lib" path="deps/httpcomponents-client/lib/httpclient-cache-4.1.3.jar"/>
+	<classpathentry kind="lib" path="deps/httpcomponents-client/lib/httpcore-4.1.4.jar"/>
+	<classpathentry kind="lib" path="deps/httpcomponents-client/lib/httpmime-4.1.3.jar"/>
+	<classpathentry kind="lib" path="deps/joda-time/joda-time-2.1.jar"/>
+	<classpathentry kind="lib" path="deps/google-gson/gson-2.1.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
