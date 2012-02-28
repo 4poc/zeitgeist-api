@@ -176,9 +176,30 @@ public class Zeitgeist {
         return item;
     }
 
-    public List<Item> list(int page)
+    public List<Item> list()
       throws ZeitgeistError {
-        Map<String, ?> jsonObject = getRequest("/?page=" + String.valueOf(page));
+        return list(-1, -1);
+    }
+
+    public List<Item> listBefore(int before)
+      throws ZeitgeistError {
+        return list(before, -1);
+    }
+
+    public List<Item> listAfter(int after)
+      throws ZeitgeistError {
+        return list(-1, after);
+    }
+
+    public List<Item> list(int before, int after)
+      throws ZeitgeistError {
+        StringBuilder query = new StringBuilder().append("/");
+        if (before >= 0 || after >= 0) {
+            query.append("?");
+            if (before >= 0) query.append("before=" + String.valueOf(before));
+            if (after >= 0) query.append("after=" + String.valueOf(after));
+        }
+        Map<String, ?> jsonObject = getRequest(query.toString());
         ArrayList<Map<String, ?>> itemObjects = (ArrayList<Map<String, ?>>)jsonObject.get("items");
         
         List<Item> items = new Vector<Item>();
