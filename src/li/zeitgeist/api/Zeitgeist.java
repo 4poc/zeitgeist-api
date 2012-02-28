@@ -176,11 +176,17 @@ public class Zeitgeist {
         return item;
     }
 
-    public void list(int page)
+    public List<Item> list(int page)
       throws ZeitgeistError {
         Map<String, ?> jsonObject = getRequest("/?page=" + String.valueOf(page));
-
+        ArrayList<Map<String, ?>> itemObjects = (ArrayList<Map<String, ?>>)jsonObject.get("items");
         
+        List<Item> items = new Vector<Item>();
+        for (Map<String, ?> itemObject : itemObjects) {
+            items.add(new Item(itemObject));
+        }
+
+        return items;
     }
 
     public Item update(int id, String tags)
