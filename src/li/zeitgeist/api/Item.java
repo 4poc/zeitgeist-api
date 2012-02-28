@@ -90,37 +90,37 @@ public class Item {
             type = Type.VIDEO;
         }
 
-        if (itemObject.containsKey("image"))
+        if (itemObject.containsKey("image") && itemObject.get("image") != null)
             image = new Image((Map<String, ?>)itemObject.get("image"));
 
-        if (itemObject.containsKey("source"))
+        if (itemObject.containsKey("source") && itemObject.get("source") != null)
             source = (String)itemObject.get("source");
 
-        if (itemObject.containsKey("title"))
+        if (itemObject.containsKey("title") && itemObject.get("title") != null)
             title = (String)itemObject.get("title");
 
-        if (itemObject.containsKey("created_at"))
+        if (itemObject.containsKey("created_at") && itemObject.get("created_at") != null)
             created = DateTime.parse((String)itemObject.get("created_at"));
 
-        if (itemObject.containsKey("nsfw"))
+        if (itemObject.containsKey("nsfw") && itemObject.get("nsfw") != null)
             nsfw = (Boolean)itemObject.get("nsfw");
 
-        if (itemObject.containsKey("size"))
+        if (itemObject.containsKey("size") && itemObject.get("size") != null)
             size = ((Double)itemObject.get("size")).intValue();
 
-        if (itemObject.containsKey("mimetype"))
+        if (itemObject.containsKey("mimetype") && itemObject.get("mimetype") != null)
             mimetype = (String)itemObject.get("mimetype");
 
-        if (itemObject.containsKey("checksum"))
+        if (itemObject.containsKey("checksum") && itemObject.get("checksum") != null)
             checksum = (String)itemObject.get("checksum");
 
-        if (itemObject.containsKey("dimensions"))
+        if (itemObject.containsKey("dimensions") && itemObject.get("dimensions") != null)
             dimensions = new Dimensions((String)itemObject.get("dimensions"));
 
-        if (itemObject.containsKey("upvote_count"))
+        if (itemObject.containsKey("upvote_count") && itemObject.get("upvote_count") != null)
             upvotes = ((Double)itemObject.get("upvote_count")).intValue();
 
-        if (itemObject.get("dm_user_id") != null) {
+        if (itemObject.get("dm_user_id") != null && itemObject.get("dm_user_id") != null) {
             userId = ((Double)itemObject.get("dm_user_id")).intValue();
         }
 
