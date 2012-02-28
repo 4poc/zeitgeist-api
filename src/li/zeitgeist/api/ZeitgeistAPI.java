@@ -24,18 +24,18 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
-public class Zeitgeist {
+public class ZeitgeistAPI {
     private AbstractHttpClient client;
     private String baseURL;
     private String email = null;
     private String apiSecret = null;
 
-    public Zeitgeist(String baseURL) {
+    public ZeitgeistAPI(String baseURL) {
         this.baseURL = baseURL;
         this.client = new DefaultHttpClient();
     }
 
-    public Zeitgeist(String baseURL, String email, String apiSecret) {
+    public ZeitgeistAPI(String baseURL, String email, String apiSecret) {
         this.baseURL = baseURL;
         this.email = email;
         this.apiSecret = apiSecret;
