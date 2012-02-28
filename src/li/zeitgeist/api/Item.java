@@ -16,8 +16,12 @@ public class Item {
         private String image;
         private String thumbnail;
         public Image(Map<String, ?> imageObject) {
-            image = (String)imageObject.get("image");
-            thumbnail = (String)imageObject.get("thumbnail");
+        	if (imageObject.containsKey("image")) {
+        		image = (String)imageObject.get("image");
+        	}
+        	if (imageObject.containsKey("thumbnail")) {
+                thumbnail = (String)imageObject.get("thumbnail");
+            }
         }
         public String getImage() {
             return this.image;
@@ -86,25 +90,35 @@ public class Item {
             type = Type.VIDEO;
         }
 
-        image = new Image((Map<String, ?>)itemObject.get("image"));
+        if (itemObject.containsKey("image"))
+            image = new Image((Map<String, ?>)itemObject.get("image"));
 
-        source = (String)itemObject.get("source");
+        if (itemObject.containsKey("source"))
+            source = (String)itemObject.get("source");
 
-        title = (String)itemObject.get("title");
+        if (itemObject.containsKey("title"))
+            title = (String)itemObject.get("title");
 
-        created = DateTime.parse((String)itemObject.get("created_at"));
+        if (itemObject.containsKey("created_at"))
+            created = DateTime.parse((String)itemObject.get("created_at"));
 
-        nsfw = (Boolean)itemObject.get("nsfw");
+        if (itemObject.containsKey("nsfw"))
+            nsfw = (Boolean)itemObject.get("nsfw");
 
-        size = ((Double)itemObject.get("size")).intValue();
+        if (itemObject.containsKey("size"))
+            size = ((Double)itemObject.get("size")).intValue();
 
-        mimetype = (String)itemObject.get("mimetype");
+        if (itemObject.containsKey("mimetype"))
+            mimetype = (String)itemObject.get("mimetype");
 
-        checksum = (String)itemObject.get("checksum");
+        if (itemObject.containsKey("checksum"))
+            checksum = (String)itemObject.get("checksum");
 
-        dimensions = new Dimensions((String)itemObject.get("dimensions"));
+        if (itemObject.containsKey("dimensions"))
+            dimensions = new Dimensions((String)itemObject.get("dimensions"));
 
-        upvotes = ((Double)itemObject.get("upvote_count")).intValue();
+        if (itemObject.containsKey("upvote_count"))
+            upvotes = ((Double)itemObject.get("upvote_count")).intValue();
 
         if (itemObject.get("dm_user_id") != null) {
             userId = ((Double)itemObject.get("dm_user_id")).intValue();
