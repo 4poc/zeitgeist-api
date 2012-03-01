@@ -1,0 +1,13 @@
+This implements the Zeitgeist API for Java, documentation for
+the API can be found here: https://github.com/jessor/zeitgeist/wiki/API-Documentation
+
+
+TODO:
+
+- JavaDoc the API
+- Fix Warnings!
+- Use the proper way of custom deserializing in gson:
+  http://sites.google.com/site/gson/gson-user-guide
+- Provide ways of getting Input/OutputStreams for 
+  Image/Thumbnail Downloading/Uploading
+
