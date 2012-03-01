@@ -202,6 +202,11 @@ public class Item {
         }
         return tagNames;
     }
+    
+    @Override
+    public boolean equals(Object otherItem) {
+    	return getId() == ((Item) otherItem).getId();
+    }
 }
 
 
