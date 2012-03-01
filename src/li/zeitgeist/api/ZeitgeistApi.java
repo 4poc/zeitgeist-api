@@ -90,9 +90,9 @@ public class ZeitgeistApi {
         try {
             entity.addPart("tags", new StringBody(tags));
             entity.addPart("announce", new StringBody(announce ? "true" : "false"));
-		} catch (UnsupportedEncodingException e) {
+        } catch (UnsupportedEncodingException e) {
             throw new ZeitgeistError("UnsupportedEncoding: " + e.getMessage());
-		}
+        }
         
         Map<String, ?> jsonObject = postRequest("/new", entity);
 
@@ -271,10 +271,10 @@ public class ZeitgeistApi {
     private HttpEntity createEntityByNameValueList(List<NameValuePair> postData) 
       throws ZeitgeistError {
         try {
-		    return new UrlEncodedFormEntity(postData, "UTF-8");
-		} catch (UnsupportedEncodingException e) {
+            return new UrlEncodedFormEntity(postData, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
             throw new ZeitgeistError("UnsupportedEncoding: " + e.getMessage());
-		}
+        }
     }
 
     private Map<String, ?> postRequest(String query, HttpEntity entity)
@@ -307,7 +307,7 @@ public class ZeitgeistApi {
         Map<String, ?> jsonObject = null;
 
         try {
-			HttpResponse response = this.client.execute(request);
+            HttpResponse response = this.client.execute(request);
             String jsonString = EntityUtils.toString(response.getEntity());
             jsonObject = parseJson(jsonString);
 
@@ -325,9 +325,9 @@ public class ZeitgeistApi {
 
                 throw error;
             }
-		} catch (ClientProtocolException e) {
+        } catch (ClientProtocolException e) {
             throw new ZeitgeistError("ClientProtocolException: " + e.getMessage());
-		} catch (IOException e) {
+        } catch (IOException e) {
             throw new ZeitgeistError("IOException: " + e.getMessage());
         } catch (ZeitgeistError e) {
             throw e; // just passthrough

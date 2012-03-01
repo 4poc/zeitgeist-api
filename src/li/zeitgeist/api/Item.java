@@ -16,10 +16,10 @@ public class Item {
         private String image;
         private String thumbnail;
         public Image(Map<String, ?> imageObject) {
-        	if (imageObject.containsKey("image")) {
-        		image = (String)imageObject.get("image");
-        	}
-        	if (imageObject.containsKey("thumbnail")) {
+            if (imageObject.containsKey("image")) {
+                image = (String)imageObject.get("image");
+            }
+            if (imageObject.containsKey("thumbnail")) {
                 thumbnail = (String)imageObject.get("thumbnail");
             }
         }
@@ -205,7 +205,7 @@ public class Item {
     
     @Override
     public boolean equals(Object otherItem) {
-    	return getId() == ((Item) otherItem).getId();
+        return getId() == ((Item) otherItem).getId();
     }
 }
 

@@ -6,9 +6,9 @@ import li.zeitgeist.api.error.*;
 
 public class Testificus {
 
-	public static void main(String[] args) {
-		
-		ZeitgeistApi zg = new ZeitgeistApi("http://127.0.0.1:4567/", "apoc@sixserv.org", "MSHFf2pccTiKP5XvJa7eSNRD1CPZyAHtn0owjSXC59eQ0kIY");
+    public static void main(String[] args) {
+        
+        ZeitgeistApi zg = new ZeitgeistApi("http://127.0.0.1:4567/", "apoc@sixserv.org", "MSHFf2pccTiKP5XvJa7eSNRD1CPZyAHtn0owjSXC59eQ0kIY");
 
         try {
             Item item = zg.createByFile(new File("/home/apoc/media/pictures/6936_dfdd.jpeg"));
@@ -46,6 +46,6 @@ public class Testificus {
         }
 
 
-	}
+    }
 
 }
