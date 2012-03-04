@@ -80,13 +80,13 @@ public class Item {
     public Item(Map<String, ?> itemObject) {
         id = ((Double)itemObject.get("id")).intValue();
         String typeString = (String)itemObject.get("type");
-        if (typeString == "image") {
+        if (typeString.equals("image")) {
             type = Type.IMAGE;
         }
-        else if (typeString == "audio") {
+        else if (typeString.equals("audio")) {
             type = Type.AUDIO;
         }
-        else if (typeString == "video") {
+        else if (typeString.equals("video")) {
             type = Type.VIDEO;
         }
 
