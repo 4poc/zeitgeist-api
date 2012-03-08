@@ -338,7 +338,8 @@ public class ZeitgeistApi {
 
     private void setHeaders(HttpRequestBase request) {
         request.setHeader("Accept", "application/json");
-        if (this.email != null && this.apiSecret != null) {
+        if (this.email != null && this.apiSecret != null &&
+            this.email.length() > 0 && this.apiSecret.length() > 0) {
             request.setHeader("X-API-Auth", this.email + "|" + this.apiSecret);
         }
     }
