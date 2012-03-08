@@ -355,5 +355,9 @@ public class ZeitgeistApi {
 
         return json;
     }
+
+    public String getBaseUrl() {
+        return baseURL;
+    }
 }
 
