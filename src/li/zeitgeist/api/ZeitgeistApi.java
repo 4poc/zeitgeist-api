@@ -210,6 +210,55 @@ public class ZeitgeistApi {
         return items;
     }
 
+    public List<Tag> searchTags(String query)
+            throws ZeitgeistError {
+        List<NameValuePair> postData = new ArrayList<NameValuePair>();
+        postData.add(new BasicNameValuePair("q", query));
+        Map<String, ?> jsonObject = postRequest("/search", createEntityByNameValueList(postData));
+        ArrayList<Map<String, ?>> tagObjects = (ArrayList<Map<String, ?>>)jsonObject.get("tags");
+
+        List<Tag> tags = new Vector<Tag>();
+        for (Map<String, ?> tagObject : tagObjects) {
+            tags.add(new Tag(tagObject));
+        }
+
+        return tags;
+    }
+
+    public List<Item> listByTag(String tag)
+            throws ZeitgeistError {
+        return listByTag(tag, -1, -1);
+    }
+
+    public List<Item> listByTagBefore(String tag, int before)
+            throws ZeitgeistError {
+        return listByTag(tag, before, -1);
+    }
+
+    public List<Item> listByTagAfter(String tag, int after)
+            throws ZeitgeistError {
+        return listByTag(tag, -1, after);
+    }
+
+    public List<Item> listByTag(String tag, int before, int after)
+            throws ZeitgeistError {
+        StringBuilder query = new StringBuilder().append("/show/tag/" + tag);
+        if (before >= 0 || after >= 0) {
+            query.append("?");
+            if (before >= 0) query.append("before=" + String.valueOf(before));
+            if (after >= 0) query.append("after=" + String.valueOf(after));
+        }
+        Map<String, ?> jsonObject = getRequest(query.toString());
+        ArrayList<Map<String, ?>> itemObjects = (ArrayList<Map<String, ?>>)jsonObject.get("items");
+
+        List<Item> items = new Vector<Item>();
+        for (Map<String, ?> itemObject : itemObjects) {
+            items.add(new Item(itemObject));
+        }
+
+        return items;
+    }
+    
     public Item update(int id, String tags)
       throws ZeitgeistError {
       Vector<String> addTags = new Vector<String>();
@@ -317,8 +366,6 @@ public class ZeitgeistApi {
                 if (((String)jsonObject.get("type")).equals("CreateItemError")) {
                     error = new CreateItemError(jsonObject);
                 }
-                else if (false) {
-                }
                 else {
                     error = new ZeitgeistError(jsonObject);
                 }
@@ -346,7 +393,6 @@ public class ZeitgeistApi {
 
     private Map<String, ?> parseJson(String jsonString)
       throws ZeitgeistError {
-      System.out.println(jsonString);
         Map<String, ?> json = null;
         try {
             json = new Gson().fromJson(jsonString, Map.class);

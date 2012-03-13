@@ -8,6 +8,7 @@ import java.util.Vector;
 import li.zeitgeist.api.Item;
 
 public class CreateItemError extends ZeitgeistError {
+
     private ZeitgeistError error;
     private List<Item> items;
 
@@ -24,5 +25,14 @@ public class CreateItemError extends ZeitgeistError {
             this.items.add(new Item(itemObject));
         }
     }
+    
+    public ZeitgeistError getInnerError() {
+        return error;
+    }
+
+    public List<Item> getItems() {
+        return items;
+    }
+
 }
 

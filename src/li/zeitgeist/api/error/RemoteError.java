@@ -26,5 +26,9 @@ public class RemoteError extends ZeitgeistError {
     {
         return this.url;
     }
+    
+    public ZeitgeistError getInnerError() {
+        return error;
+    }
 }
 
