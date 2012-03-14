@@ -1,20 +1,44 @@
 package li.zeitgeist.api;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
 import org.joda.time.DateTime;
 
+/**
+ * Zeitgeist Media Item.
+ * 
+ * Information about an image, audio or video item, contains
+ * the thumbnail/location, tags and more.
+ */
 public class Item {
 
+    /**
+     * Supported media types, audio and video items are represented
+     * only by their source link to Soundcloud or YouTube, etc.
+     */
     public enum Type {
         IMAGE, AUDIO, VIDEO
     }
 
+    /**
+     * Location to the image or the video thumbnail.
+     */
     public class Image {
+        /**
+         * Full size image location. Root is the URL base.
+         */
         private String image;
+        /**
+         * Thumbnail, currently this is a 200x200 large gif/jpg/png image.
+         */
         private String thumbnail;
+        /**
+         * Constructs a image object with locations to thumbnail/full-sized.
+         * @param imageObject json object with primitives
+         */
         public Image(Map<String, ?> imageObject) {
             if (imageObject.containsKey("image")) {
                 image = (String)imageObject.get("image");
@@ -23,17 +47,35 @@ public class Item {
                 thumbnail = (String)imageObject.get("thumbnail");
             }
         }
+        /**
+         * The full-sized image.
+         * @return location with the base URL as root.
+         */
         public String getImage() {
             return this.image;
         }
+        /**
+         * The thumbnail, currently a 200x200 square image.
+         * @return location with the base URL as root.
+         */
         public String getThumbnail() {
             return this.thumbnail;
         }
     }
 
+    /**
+     * Store the dimensions of an image item.
+     */
     public class Dimensions {
         private int width;
         private int height;
+        /**
+         * Constructs the dimensions object by a formatted string.
+         * 
+         * The format of the dimensions string is [width]x[height].
+         * 
+         * @param dimensions
+         */
         public Dimensions(String dimensions) {
             String[] s = dimensions.split("x");
             width = Integer.parseInt(s[0]);
@@ -42,41 +84,97 @@ public class Item {
         public String toString() {
             return String.valueOf(width) + "x" + String.valueOf(height);
         }
+        /**
+         * @return width value
+         */
         public int getWidth() {
             return this.width;
         }
+        /**
+         * @return height value
+         */
         public int getHeight() {
             return this.height;
         }
     }
 
+    /**
+     * Unique ID of this item, numerical, sequential.
+     */
     private int id;
 
+    /**
+     * Item type, image, audio, video.
+     */
     private Type type;
 
+    /**
+     * Locations to full-sized and thumbnail image.
+     */
     private Image image;
 
+    /**
+     * Optional source for this item, can be a URL or filename.
+     * 
+     * May contain the URL to a video/audio, the URL the image was
+     * remotely downloaded from or the filename of the upload. 
+     */
     private String source;
 
+    /**
+     * Parsed item title, for instance the YouTube video title.
+     */
     private String title;
 
+    /**
+     * Timestamp when this item was created.
+     */
     private DateTime created;
 
+    /**
+     * Flag for "Not Safe For Work" (inappropriate) items.
+     */
     private boolean nsfw;
 
+    /**
+     * Size of the full-sized image in bytes.
+     */
     private int size;
 
+    /**
+     * Detected content mimetype.
+     */
     private String mimetype;
 
+    /**
+     * Currently an hexdigest MD5.
+     */
     private String checksum;
+    
+    /**
+     * The width and height of the full-sized image.
+     */
     private Dimensions dimensions;
 
+    /**
+     * Number of +1 votes.
+     */
     private int upvotes;
 
+    /**
+     * ID of the user that created the item.
+     */
     private int userId = -1;
 
-    private Vector<Tag> tags;
+    /**
+     * List of tags associated with this item.
+     */
+    private List<Tag> tags;
 
+    /**
+     * Construct item object by json primitive map.
+     * @param itemObject
+     */
     public Item(Map<String, ?> itemObject) {
         id = ((Double)itemObject.get("id")).intValue();
         String typeString = (String)itemObject.get("type");
@@ -132,66 +230,136 @@ public class Item {
         }
     }
 
+    /**
+     * Unique ID for this item.
+     * 
+     * A numeric, sequential and unique ID.
+     * 
+     * @return integer id
+     */
     public int getId() {
         return this.id;
     }
 
+    /**
+     * Item type, image, audio, video.
+     * @return Type enum
+     */
     public Type getType() {
         return this.type;
     }
 
+    /**
+     * Image object with location to full-sized and thumbnail image.
+     * @return image object
+     */
     public Image getImage() {
         return this.image;
     }
 
+    /**
+     * Optional source for this item, can be a URL or filename.
+     * 
+     * May contain the URL to a video/audio, the URL the image was
+     * remotely downloaded from or the filename of the upload. 
+     * @return string
+     */
     public String getSource() {
         return this.source;
     }
 
+    /**
+     * Parsed item title, for instance the YouTube video title.
+     * @return string
+     */
     public String getTitle() {
         return this.title;
     }
 
+    /**
+     * Timestamp when this item was created.
+     * @return string
+     */
     public DateTime getCreated() {
         return this.created;
     }
 
+    /**
+     * Flag for "Not Safe For Work" (inappropriate) items.
+     * @return string
+     */
     public boolean isNsfw() {
         return this.nsfw;
     }
 
+    /**
+     * Size of the full-sized image in bytes.
+     * @return bytes
+     */
     public int getSize() {
         return this.size;
     }
 
+    /**
+     * Detected content mimetype.
+     * @return mimetype, for instance: image/jpeg
+     */
     public String getMimetype() {
         return this.mimetype;
     }
 
+    /**
+     * Currently an hexdigest MD5.
+     * @return hex string
+     */
     public String getChecksum() {
         return this.checksum;
     }
 
+    /**
+     * The width and height of the full-sized image.
+     * @return dimensions object
+     */
     public Dimensions getDimensions() {
         return this.dimensions;
     }
 
+    /**
+     * Number of +1 votes.
+     * @return vote count
+     */
     public int getUpvotes() {
         return this.upvotes;
     }
 
+    /**
+     * ID of the user that created the item.
+     * @return ID
+     */
     public int getUserId() {
         return this.userId;
     }
 
-    public void addTag(Tag tag) {
+    /**
+     * Add tag object to the list.
+     * @param tag
+     */
+    private void addTag(Tag tag) {
         tags.add(tag);
     }
 
-    public Vector<Tag> getTags() {
+    /**
+     * List of tags associated with this item.
+     * @return list of tag objects
+     */
+    public List<Tag> getTags() {
         return tags;
     }
 
+    /**
+     * List of the tag names without other information.
+     * @return array of string
+     */
     public String[] getTagNames() {
         if (tags == null) return null;
         String[] tagNames = new String[tags.size()];
@@ -208,5 +376,3 @@ public class Item {
         return getId() == ((Item) otherItem).getId();
     }
 }
-
-
