@@ -54,7 +54,7 @@ public class ZeitgeistApi {
     /**
      * Base URL of the zeitgeist installation.
      */
-    private String baseURL;
+    private String baseUrl;
     /**
      * User eMail for authentication.
      */
@@ -65,22 +65,22 @@ public class ZeitgeistApi {
     private String apiSecret = null;
 
     /**
-     * Construct a API instance with the provided baseURL.
-     * @param baseURL
+     * Construct a API instance with the provided baseUrl.
+     * @param baseUrl
      */
-    public ZeitgeistApi(String baseURL) {
-        this.baseURL = baseURL;
+    public ZeitgeistApi(String baseUrl) {
+        this.baseUrl = baseUrl;
         this.client = new DefaultHttpClient();
     }
 
     /**
      * Construct a API instance with provided base URL and authentication.
-     * @param baseURL
+     * @param baseUrl
      * @param email
      * @param apiSecret
      */
-    public ZeitgeistApi(String baseURL, String email, String apiSecret) {
-        this.baseURL = baseURL;
+    public ZeitgeistApi(String baseUrl, String email, String apiSecret) {
+        this.baseUrl = baseUrl;
         this.email = email;
         this.apiSecret = apiSecret;
         this.client = new DefaultHttpClient();
@@ -202,7 +202,7 @@ public class ZeitgeistApi {
 
         List<Item> items = new Vector<Item>();
         for (Map<String, ?> itemObject : itemObjects) {
-            items.add(new Item((Map<String, ?>)itemObject.get("item")));
+            items.add(new Item((Map<String, ?>)itemObject.get("item"), baseUrl));
         }
 
         return items;
@@ -317,7 +317,7 @@ public class ZeitgeistApi {
 
         List<Item> items = new Vector<Item>();
         for (Map<String, ?> itemObject : itemObjects) {
-            items.add(new Item(itemObject));
+            items.add(new Item(itemObject, baseUrl));
         }
 
         return items;
@@ -333,7 +333,7 @@ public class ZeitgeistApi {
       throws ZeitgeistError {
         Map<String, ?> jsonObject = getRequest("/" + String.valueOf(id));
 
-        Item item = new Item((Map<String, ?>)jsonObject.get("item"));
+        Item item = new Item((Map<String, ?>)jsonObject.get("item"), baseUrl);
 
         return item;
     }
@@ -390,7 +390,7 @@ public class ZeitgeistApi {
         
         List<Item> items = new Vector<Item>();
         for (Map<String, ?> itemObject : itemObjects) {
-            items.add(new Item(itemObject));
+            items.add(new Item(itemObject, baseUrl));
         }
 
         return items;
@@ -473,7 +473,7 @@ public class ZeitgeistApi {
 
         List<Item> items = new Vector<Item>();
         for (Map<String, ?> itemObject : itemObjects) {
-            items.add(new Item(itemObject));
+            items.add(new Item(itemObject, baseUrl));
         }
 
         return items;
@@ -535,7 +535,7 @@ public class ZeitgeistApi {
 
         Map<String, ?> jsonObject = postRequest("/update", createEntityByNameValueList(postData));
 
-        Item item = new Item((Map<String, ?>)jsonObject.get("item"));
+        Item item = new Item((Map<String, ?>)jsonObject.get("item"), baseUrl);
 
         return item;
     }
@@ -613,7 +613,7 @@ public class ZeitgeistApi {
       throws ZeitgeistError {
         Map<String, ?> jsonObject = null;
 
-        HttpPost request = new HttpPost(this.baseURL + query);
+        HttpPost request = new HttpPost(this.baseUrl + query);
         setHeaders(request);
 
         request.setEntity(entity);
@@ -633,7 +633,7 @@ public class ZeitgeistApi {
       throws ZeitgeistError {
         Map<String, ?> jsonObject = null;
 
-        HttpGet request = new HttpGet(this.baseURL + query);
+        HttpGet request = new HttpGet(this.baseUrl + query);
         setHeaders(request);
         jsonObject = executeRequest(request);
 
@@ -660,7 +660,7 @@ public class ZeitgeistApi {
             if (statusCode != 200) { // parse json into an ZeitgeistException and throw
                 ZeitgeistError error = null;
                 if (((String)jsonObject.get("type")).equals("CreateItemError")) {
-                    error = new CreateItemError(jsonObject);
+                    error = new CreateItemError(jsonObject, baseUrl);
                 }
                 else {
                     error = new ZeitgeistError(jsonObject);
@@ -714,7 +714,7 @@ public class ZeitgeistApi {
      * @return string URL
      */
     public String getBaseUrl() {
-        return baseURL;
+        return baseUrl;
     }
 }
 

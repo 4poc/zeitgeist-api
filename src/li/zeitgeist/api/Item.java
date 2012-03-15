@@ -69,14 +69,42 @@ public class Item {
          * @return location with the base URL as root.
          */
         public String getImage() {
-            return this.image;
+            return image;
         }
         /**
          * The thumbnail, currently a 200x200 square image.
          * @return location with the base URL as root.
          */
         public String getThumbnail() {
-            return this.thumbnail;
+            return thumbnail;
+        }
+        
+        /**
+         * The full-sized image.
+         * @return absolute URI location
+         */
+        public String getImageUrl() {
+            return resolveUrl(image);
+        }
+        /**
+         * The thumbnail, currently a 200x200 square image.
+         * @return absolute URI location
+         */
+        public String getThumbnailUrl() {
+            return resolveUrl(thumbnail);
+        }
+        
+        /**
+         * Return url with baseUrl as the base.
+         * @param url
+         * @return absolute URI location
+         */
+        private String resolveUrl(String url) {
+            // base from url: otherwise should contain url already
+            if (url.charAt(0) == '/') {
+                url = baseUrl + url;
+            }
+            return url;
         }
     }
 
@@ -187,12 +215,19 @@ public class Item {
      * List of tags associated with this item.
      */
     private List<Tag> tags;
+    
+    /**
+     * The baseUrl set by the api instance that instantiated this item.
+     */
+    private String baseUrl;
 
     /**
      * Construct item object by json primitive map.
      * @param itemObject
+     * @param baseUrl to return absolute URLs
      */
-    public Item(Map<String, ?> itemObject) {
+    public Item(Map<String, ?> itemObject, String baseUrl) {
+        this.baseUrl = baseUrl;
         id = ((Double)itemObject.get("id")).intValue();
         String typeString = (String)itemObject.get("type");
         if (typeString.equals("image")) {

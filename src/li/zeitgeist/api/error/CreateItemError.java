@@ -54,13 +54,13 @@ public class CreateItemError extends ZeitgeistError {
      * Construct by json primitive map.
      * @param jsonObject
      */
-    public CreateItemError(Map<String, ?> jsonObject) {
+    public CreateItemError(Map<String, ?> jsonObject, String baseUrl) {
         super(jsonObject);
 
         this.error = new ZeitgeistError((Map<String, ?>)jsonObject.get("error"));
         this.items = new Vector<Item>();
         for (Map<String, ?> itemObject : (ArrayList<Map<String, ?>>)jsonObject.get("items")) {
-            this.items.add(new Item(itemObject));
+            this.items.add(new Item(itemObject, baseUrl));
         }
     }
     
