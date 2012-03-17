@@ -17,12 +17,19 @@
  */
 package li.zeitgeist.api;
 
+import java.io.Serializable;
 import java.util.Map;
 
 /**
  * Tag class with name and other information.
  */
-public class Tag {
+public class Tag implements Serializable {
+    
+    /**
+     * Object version ID.
+     */
+    private static final long serialVersionUID = -7619239658122990840L;
+    
     /**
      * Unique internal ID of this tag.
      */

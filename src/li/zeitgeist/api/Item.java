@@ -17,6 +17,7 @@
  */
 package li.zeitgeist.api;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -30,7 +31,12 @@ import org.joda.time.DateTime;
  * Information about an image, audio or video item, contains
  * the thumbnail/location, tags and more.
  */
-public class Item {
+public class Item implements Serializable {
+
+    /**
+     * Object version ID.
+     */
+    private static final long serialVersionUID = -3985059947588199110L;
 
     /**
      * Supported media types, audio and video items are represented
