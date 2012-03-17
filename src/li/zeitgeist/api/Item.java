@@ -49,7 +49,12 @@ public class Item implements Serializable {
     /**
      * Location to the image or the video thumbnail.
      */
-    public class Image {
+    public class Image implements Serializable {
+        /**
+         * Object version ID.
+         */
+        private static final long serialVersionUID = -8541699202813580389L;
+        
         /**
          * Full size image location. Root is the URL base.
          */
@@ -117,9 +122,15 @@ public class Item implements Serializable {
     /**
      * Store the dimensions of an image item.
      */
-    public class Dimensions {
+    public class Dimensions implements Serializable {
+        /**
+         * Object version ID.
+         */
+        private static final long serialVersionUID = 4349734353706680210L;
+        
         private int width;
         private int height;
+        
         /**
          * Constructs the dimensions object by a formatted string.
          * 
