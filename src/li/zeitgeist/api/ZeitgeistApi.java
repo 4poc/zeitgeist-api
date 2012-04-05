@@ -20,6 +20,7 @@ package li.zeitgeist.api;
 import li.zeitgeist.api.error.*;
 
 import java.io.*;
+import java.net.URLEncoder;
 import java.util.*;
 
 import com.google.gson.Gson;
@@ -32,6 +33,7 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.entity.mime.MultipartEntity;
 import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.entity.mime.content.StringBody;
@@ -462,7 +464,12 @@ public class ZeitgeistApi {
      */
     public List<Item> listByTag(String tag, int before, int after)
             throws ZeitgeistError {
-        StringBuilder query = new StringBuilder().append("/show/tag/" + tag);
+        StringBuilder query = new StringBuilder();
+        try {
+            query.append("/show/tag/" + URLEncoder.encode(tag, "utf-8"));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
         if (before >= 0 || after >= 0) {
             query.append("?");
             if (before >= 0) query.append("before=" + String.valueOf(before));
