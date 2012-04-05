@@ -433,7 +433,7 @@ public class Item implements Serializable {
      */
     public boolean hasTag(String name) {
         for (Tag tag : tags) {
-            if (tag.getName() == name) {
+            if (tag.getName().equals(name)) {
                 return true;
             }
         }
