@@ -424,6 +424,21 @@ public class Item implements Serializable {
     public List<Tag> getTags() {
         return tags;
     }
+    
+    /**
+     * Returns true if the tag specified by name could be found.
+     * 
+     * @param name of the tag
+     * @return true if found
+     */
+    public boolean hasTag(String name) {
+        for (Tag tag : tags) {
+            if (tag.getName() == name) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     /**
      * List of the tag names without other information.
