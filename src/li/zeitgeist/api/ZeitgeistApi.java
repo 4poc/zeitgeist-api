@@ -217,7 +217,7 @@ public class ZeitgeistApi {
 
         List<Item> items = new Vector<Item>();
         for (Map<String, ?> itemObject : itemObjects) {
-            items.add(new Item((Map<String, ?>)itemObject.get("item"), baseUrl));
+            items.add(new Item(itemObject, baseUrl));
         }
 
         return items;
