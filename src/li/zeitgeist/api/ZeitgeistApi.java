@@ -34,6 +34,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.utils.URLEncodedUtils;
+import org.apache.http.entity.AbstractHttpEntity;
 import org.apache.http.entity.mime.MultipartEntity;
 import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.entity.mime.content.StringBody;
@@ -185,8 +186,20 @@ public class ZeitgeistApi {
      */
     public List<Item> createByFiles(List<File> files, String tags, boolean announce)
       throws ZeitgeistError {
+        return createByFiles(files, tags, announce, null);
+    }
+
+    public List<Item> createByFiles(List<File> files, String tags, 
+            boolean announce, OnProgressListener listener) 
+            throws ZeitgeistError {
+        MultipartEntity entity;
+        if (listener == null) {
+            entity = new MultipartEntity();
+        }
+        else {
+            entity = new MultipartEntityWithProgress(listener);
+        }
         
-        MultipartEntity entity = new MultipartEntity();
         for (File file : files) {
             entity.addPart("image_upload[]", new FileBody(file));
         }
@@ -210,6 +223,50 @@ public class ZeitgeistApi {
         return items;
     }
 
+    public interface OnProgressListener {
+        public void onProgress(long transferred);
+    }
+    
+    // based on this idea: 
+    //  http://toolongdidntread.com/android/android-multipart-post-with-progress-bar/
+    private class MultipartEntityWithProgress extends MultipartEntity {
+        private OnProgressListener listener;
+        
+        public MultipartEntityWithProgress(OnProgressListener listener) {
+            this.listener = listener;
+        }
+
+        @Override
+        public void writeTo(final OutputStream out) throws IOException {
+            super.writeTo(new CountingOutputStream(out, this.listener));
+        }
+
+        private class CountingOutputStream extends FilterOutputStream {
+
+            private final OnProgressListener listener;
+            private long transferred;
+
+            public CountingOutputStream(final OutputStream out,
+                    final OnProgressListener listener) {
+                super(out);
+                this.listener = listener;
+                this.transferred = 0;
+            }
+
+            public void write(byte[] b, int off, int len) throws IOException {
+                out.write(b, off, len);
+                this.transferred += len;
+                this.listener.onProgress(this.transferred);
+            }
+
+            public void write(int b) throws IOException {
+                out.write(b);
+                this.transferred++;
+                this.listener.onProgress(this.transferred);
+            }
+        }
+    }
+        
     /**
      * Remote upload/create by image/video/audio url.
      * @param url
