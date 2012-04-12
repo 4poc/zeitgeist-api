@@ -650,6 +650,36 @@ public class ZeitgeistApi {
         Map<String, ?> jsonObject = postRequest("/upvote", createEntityByNameValueList(postData));
         return ((Double)jsonObject.get("upvotes")).intValue();
     }
+    
+    /**
+     * Request the api secret, useful for testing.
+     * 
+     * @return String the api secret key.
+     * @throws ZeitgeistError
+     */
+    public String getApiSecret() throws ZeitgeistError {
+        Map<String, ?> jsonObject = getRequest("/api_secret");
+        return (String) jsonObject.get("api_secret");
+    }
+    
+    /**
+     * Test the supplied url, email and key, return true if ok.
+     * 
+     * @param baseUrl
+     * @param eMail
+     * @param apiSecret
+     * @return true if successfully authenticated.
+     */
+    public boolean testAuth(String baseUrl, String eMail, String apiSecret) {
+        ZeitgeistApi api = new ZeitgeistApi(baseUrl, eMail, apiSecret);
+        try {
+            api.getApiSecret();
+            return true;
+        }
+        catch (ZeitgeistError error) {
+            return false;
+        }
+    }
 
     /**
      * Creates urlencoded data from a pair list for POST requests.
