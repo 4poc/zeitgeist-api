@@ -66,6 +66,11 @@ public class ZeitgeistApi {
      * User API Secret used for authentication.
      */
     private String apiSecret = null;
+    
+    /**
+     * User Id we authenticated. 
+     */
+    private int userId = -1;
 
     /**
      * Construct a API instance with the provided baseUrl.
@@ -74,6 +79,7 @@ public class ZeitgeistApi {
     public ZeitgeistApi(String baseUrl) {
         this.baseUrl = baseUrl;
         this.client = new DefaultHttpClient();
+        
     }
 
     /**
@@ -81,12 +87,22 @@ public class ZeitgeistApi {
      * @param baseUrl
      * @param email
      * @param apiSecret
+     * @throws ZeitgeistError 
      */
     public ZeitgeistApi(String baseUrl, String email, String apiSecret) {
         this.baseUrl = baseUrl;
         this.email = email;
         this.apiSecret = apiSecret;
         this.client = new DefaultHttpClient();
+        
+        if (!apiSecret.equals("")) {
+            try {
+                getApiSecret(); // tests the secret (caches the userId)
+            } catch (ZeitgeistError e) {
+                e.printStackTrace();
+                email = apiSecret = "";
+            }
+        }
     }
 
     /**
@@ -654,11 +670,18 @@ public class ZeitgeistApi {
     /**
      * Request the api secret, useful for testing.
      * 
+     * This also caches the userId.
+     * 
      * @return String the api secret key.
      * @throws ZeitgeistError
      */
     public String getApiSecret() throws ZeitgeistError {
         Map<String, ?> jsonObject = getRequest("/api_secret");
+        
+        if (jsonObject.containsKey("user_id")) {
+            userId = ((Double)jsonObject.get("user_id")).intValue();
+        } 
+        
         return (String) jsonObject.get("api_secret");
     }
     
@@ -809,6 +832,15 @@ public class ZeitgeistApi {
      */
     public String getBaseUrl() {
         return baseUrl;
+    }
+    
+    /**
+     * Return the User Id, returned by the /api_secret.
+     * 
+     * @return integer, -1 if error
+     */
+    public int getUserId() {
+        return userId;
     }
 }
 

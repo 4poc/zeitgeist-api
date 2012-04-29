@@ -234,6 +234,11 @@ public class Item implements Serializable {
     private List<Tag> tags;
     
     /**
+     * List of User Ids that upvoted this item. 
+     */
+    private List<Integer> usersUpvoted;
+    
+    /**
      * The baseUrl set by the api instance that instantiated this item.
      */
     private String baseUrl;
@@ -296,6 +301,13 @@ public class Item implements Serializable {
         for (Map<String, ?> tagObject : tagsObject) {
             if (tagObject == null) break;// why does this happen?
             addTag(new Tag(tagObject));
+        }
+        
+        usersUpvoted = new Vector<Integer>();
+        ArrayList<Double> usersUpvotedObject = (ArrayList<Double>)itemObject.get("users_upvoted");
+        for (Double userUpvoted : usersUpvotedObject) {
+            if (userUpvoted == null) break;// should never happen
+            usersUpvoted.add(userUpvoted.intValue());
         }
     }
 
@@ -423,6 +435,14 @@ public class Item implements Serializable {
      */
     public List<Tag> getTags() {
         return tags;
+    }
+    
+    /**
+     * Return a list of user ids that upvoted this item.
+     * @return list of integer
+     */
+    public List<Integer> getUsersUpvoted() {
+        return usersUpvoted;
     }
     
     /**
